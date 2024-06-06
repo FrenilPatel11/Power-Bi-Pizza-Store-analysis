@@ -1,0 +1,33 @@
+PIZZA SALES SQL QUERIES  (KPIs)
+
+1. TOTAL REVENUE = 817860.05
+=> select sum(total_price) as Total_Revenue from Pizza_Db
+   
+2. AVERAGE ORDER VALUE = 38.3072622950819672
+=> select sum(total_price)/count(DISTINCT order_id) from Pizza_Db
+
+3. TOTAL PIZZA SOLD = 49574
+=> select sum(quantity) from Pizza_Db
+
+4. TOTAL ORDERS = 21350
+=> select count(distinct order_id) from Pizza_Db
+
+5. AVERAGE PIZZA PER ORDER = 2.3219672131147541
+=> select CAST(SUM(quantity) AS DECIMAL (10,2))/ CAST(count(distinct order_id) AS DECIMAL (10,2)) from Pizza_Db
+
+6. DAY WISE ORDER COUNT 
+=> SELECT TO_CHAR(order_date,'Day'),count(distinct order_id) from pizza_db group by TO_CHAR(order_date,'Day');
+
+7. MONTH WISE ORDER COUNT 
+=> SELECT TO_CHAR(order_date,'month'),count(distinct order_id) from pizza_db group by TO_CHAR(order_date,'month');
+
+8. TOTAL SALES PERCENTAGE BY PIZZA CATEGORY 
+=> select  pizza_category , cast (sum(total_price) * 100 / (select sum(total_price) from pizza_db) as decimal (10,2) )from pizza_db group by pizza_category
+
+9. TOP AND BOTTOM 5 PIZZA BY REVENUE 
+=> select  pizza_name,sum(total_price) as revenue from pizza_db group by pizza_name order by revenue desc limit 5
+=> select  pizza_name,sum(total_price) as revenue from pizza_db group by pizza_name order by revenue asc limit 5
+
+10. TOP AND BOTTOM 5 PIZZA BY ORDERS
+=> select  pizza_name,COUNT(DISTINCT order_id) as revenue from pizza_db group by pizza_name order by revenue desc limit 5
+=> select  pizza_name,COUNT(DISTINCT order_id) as revenue from pizza_db group by pizza_name order by revenue asc limit 5
